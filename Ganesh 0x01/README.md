@@ -1,26 +1,19 @@
-# Forensic_xmas
-Once again, Santa needs your help!
+# Ganesh CTF
+Collection of challenges for freshmans and new members of the [Ganesh Group](ganesh.icmc.usp.br). <br>
+Writeup in portuguese.
 
-Many children sent him pictures. But the good old man ended up deleting all these photos.
-What can you do for him?
+## Web
+- [Memes(20)](Web/Memes.md)
+- [Mighty Searcher(40)](Web/MightySearcher.md)
+- Omni Corp(40)
+- [The Vault(50)](Web/TheVault.md)
+- [Banana Shopping(60)](Web/BananaShopping.md)
 
-See if you can identify the gifts in all photos. The more important photo is a toy that is inside a box, and its name is written on it. Can you figure out what is written in the box?
+## Programming
+- [Show me you Code!](ShowMeYouCode.md)
 
-Flag format: shellter {nomenacaixa}
-
-[Chall link](https://shellterlabs.com/en/questions/christmas-challenge-2016/forensic_xmas/)
-
-## Solving it
-We first download the file given at the challenge page. <br>
-It is a .gz file, unzipping it we obtain a `forensic_xmas` file. <br>
-Then, using `strings` we can se that there are lots of images inside the file.
-
-![forensic_xmas](Forensic_xmas/forensic_xmas.png)
-
-Then, extracting the images using `foremost forensic_xmas`. <br>
-At the output folder, we can see this messed up image that seems to fit at the given description:
-
-![forensic_xmas](Forensic_xmas/00020170.png)
-
-At the top of it we can see the "Pop Movies" logo, then, searching for it, while it appears to be a Minion from Despicable Me movie we find out the his name is "king bob". <br>
-Then, submitting `shellter{kingbob}` we obtain success.
+## Linux
+- Leviathan 1
+- Leviathan 3
+- Leviathan 5
+- Leviathan 7
