@@ -5,11 +5,11 @@ Retirado de [**OverTheWire: ‘Leviathan’ Solutions 1-8**][26] por [**Jack Hal
 
 Leviathan é um wargame que foi resgatado do extinto intruded.net, anteriormente hospedado em **leviathan.intruded.net**. Agora ele pode ser encontrado [aqui][10] no OverTheWire. Este wargame consiste de 8 níveis e é classificado como 1/10 em termos de dificuldade. Sendo também afirmado que "_Este wargame não requer nenhum conhecimento sobre programação, apenas um pouco de senso comum e conhecimento básco de comandos *nix._"
 
-Embora toda a sua honestidade, ele requer um pouco mais do que é afirmado. Antes de começarmos, para qualquer um que esteja passando pelos níveis e tendo dificuldades, tudo o que posso dizer é - concentre-se na saída do código e utilize o comando [ltrace][11].
+Embora toda a sua sinceridade, ele requer um pouco mais do que é posto. Antes de começarmos, para qualquer um que esteja passando pelos níveis e tendo dificuldades, tudo o que posso dizer é - concentre-se na saída do código e utilize o comando [ltrace][11].
 
-Então, vamos começar... vamos?
+Então, vamos começar?
 
-**Obs: Todas as flags deste guia foram removidas por motivos didáticos.**
+**Obs: Todas as FLAGS deste guia foram removidas por motivos didáticos.**
 
 ### Level 0:
 
