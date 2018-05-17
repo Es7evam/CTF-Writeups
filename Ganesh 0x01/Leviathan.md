@@ -3,7 +3,7 @@ OverTheWire: Resolução do ‘Leviathan’ 1-8
 
 Retirado de [**OverTheWire: ‘Leviathan’ Solutions 1-8**][26] por [**Jack Halon**][1].
 
-Leviathan é um wargame que foi resgatado do extinto intruded.net, anteriormente hospedado em **leviathan.intruded.net**. Agora ele pode ser encontrado [aqui][10] no OverTheWire. Este wargame consiste de 8 níveis e é classificado como 1/10 em termos de dificuldade. Sendo também afirmado que "_Este wargame não requer nenhum conhecimento sobre programação, apenas um pouco de senso comum e conhecimento básco de comandos *nix._"
+Leviathan é um wargame que foi resgatado do extinto intruded.net, anteriormente hospedado em **leviathan.intruded.net**. Agora ele pode ser encontrado [aqui][10] no OverTheWire. Este wargame consiste de 8 níveis e é classificado como 1/10 em termos de dificuldade. Também é afirmado que "_Este wargame não requer nenhum conhecimento sobre programação, apenas um pouco de senso comum e conhecimento básco de comandos *nix._"
 
 Embora toda a sua sinceridade, ele requer um pouco mais do que é posto. Antes de começarmos, para qualquer um que esteja passando pelos níveis e tendo dificuldades, tudo o que posso dizer é - concentre-se na saída do código e utilize o comando [ltrace][11].
 
@@ -40,10 +40,10 @@ leviathan0@melinda:~/.backup$ grep leviathan1 bookmarks.html
 ```
 
 
-Beleza, acabamos por encontrar a FLAG a partir do **bookmarks.html**. Então vamos para o nível seguinte, leviathan1!
+Beleza, acabamos por encontrar a FLAG a partir do **bookmarks.html**. Vamos para o nível seguinte, leviathan1!
 
 ### Level 1 -> 2:
-Esse nível é bem fácil, e você pode usar inúmeros métodos para encontrar a flag. Mas primeiro, vejamos o que temos para 
+Esse nível é bem fácil, e você pode usar inúmeros métodos para encontrar a FLAG. Mas primeiro, vejamos o que temos a nossa disposição. 
 .
 ```console
 leviathan1@melinda:~$ ls -a
@@ -88,7 +88,7 @@ E agora nós temos a FLAG! Se achou que até aqui foi difícil, pode aguardar qu
 
 ### Level 2 -> 3:
 
-Em minha honesta opinião este nível é realmente interessante, pois permite que se explore uma falha no executável. Isso me tomou um bom tempo e muita pesquisa no Google([Google Fu][12]) para finalmente descobrir como conseguir a FLAG de **/etc/leviathan_pass/leviathan3**.
+Em minha honesta opinião este nível é realmente interessante, pois permite que se explore uma falha no executável. Isso me tomou um bom tempo e muita pesquisa no Google ([Google Fu][12]) para finalmente descobrir como conseguir a FLAG de **/etc/leviathan_pass/leviathan3**.
 ```console
 leviathan2@melinda:~$ ls -la
 total 28
@@ -123,11 +123,11 @@ system("/bin/cat test.txt" <no return ...>
 +++ exited (status 0) +++
 ```    
 
-Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que `access()` faz é verificar as permissões com base no ID do usuário real do processo em vez do ID do usuário efetivo.
+Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que `access()` faz é verificar as permissões com base no ID real do usuário do processo em vez do ID efetivo do usuário.
 
 Esclarecendo: O real ID do usuário é quem você realmente é (aquele que é o dono do processo), e o ID efetivo do usuário  é o que o sistema operacional analisa para decidir se você tem ou não permissão para fazer algo (na maioria das vezes, existem algumas exceções).
 
-E se nós olharmos de volta para a saída do comando `ls -la` anterior, nós podemos observar que o programa **printfile** pertence ao usuário **leviathan3**. Sendo assim, o comando `access()` irá chamar o processo com os privilégios do usuário **leviathan3’s**.
+E se nós olharmos de volta para a saída do comando `ls -la` anterior, nós podemos observar que o programa **printfile** pertence ao usuário **leviathan3**. Sendo assim, o comando `access()` irá chamar o processo com os privilégios do usuário **leviathan3**.
 
 Examinando cuidadosamente o código nós também podemos ver que o **/bin/cat** está sendo chamado para imprimir o conteúdo do arquivo. Enquanto o comando `access()` utiliza o caminho completo do arquivo, o **/bin/cat** utiliza apenas o nome do arquivo como caminho. (Isto é devido a como " " está configurado no programa) O que nós podemos fazer aqui é tentar adicionar um espaço ao nome do arquivo, e se nós estivermos corretos, será possível ler um arquivo como 2 arquivos separados pelo **/bin/cat**.
 ```console
@@ -144,8 +144,6 @@ system("/bin/cat pass file.txt"/bin/cat: pass: No such file or directory
 +++ exited (status 0) +++
 ```    
 Eu estava certo! Como você pode ver, o **/bin/cat** abre o “**pass file.txt**” como dois arquivos separados, “**pass**” e “**file.txt**”. Nós podemos explorar essa vulnerabilidade! Vamos criar um [link simbólico][13] para a parte do  “**pass**” no “**pass file.txt**”, a partir do arquivo **/etc/leviathan_pass/leviathan3**.
-
-I was right! As you can see, **/bin/cat** calls “**pass file.txt**” as two separate files, “**pass**” and “**file.txt**”. We can actually exploit this! Let’s go ahead and create a [symbolic link][13] for the “**pass**” part in “**pass file.txt**”, and link it to **/etc/leviathan_pass/leviathan3**.
 ```console
 leviathan2@melinda:/tmp/jhalon$ ln -s /etc/leviathan_pass/leviathan3 /tmp/jhalon/pass
 leviathan2@melinda:/tmp/jhalon$ ls -la
@@ -205,7 +203,7 @@ $ cat /etc/leviathan_pass/leviathan4
 FLAG
 ```    
 
-Uau, isso foi mais fácil do que pressionar um Staples button! Ok... vamos seguir para o leviathan4!
+Uau, isso foi mais fácil do que tirar doce de criança! Ok... vamos seguir para o leviathan4!
 
 ### Level 4 -> 5:
 
@@ -235,11 +233,11 @@ leviathan4@melinda:~/.trash$ ./bin
 
 Interessante... É um saída binária. Vamos usar um conversor online de Binário para ASCII. Eu usei o [RapidTables][14] para fazer a minha conversão. Depois de converter o binário, nós conseguimos a FLAG.
 
-Muito fácil, não é muito difícil se você souber para o que está olhando. Vamos para o leviathan5!
+Simples assim, não é tão difícil quando você sabe o que está procurando. Vamos para o leviathan5!
 
 ### Level 5 -> 6:
 
-Bem, até agora nós tivemos alguns que eram fáceis e outros quera eram difíceis... vejamos o que nos aguarda no leviathan5.
+Bem, até agora nós tivemos alguns níveis que eram fáceis e outros quera eram difíceis... vejamos o que nos aguarda no leviathan5.
 ```console
 leviathan5@melinda:~$ ls -la
 total 28
@@ -314,7 +312,7 @@ leviathan6@melinda:/tmp/jhalon$ chmod +x brute.sh
 leviathan6@melinda:/tmp/jhalon$ ./brute.sh
 ```    
 
-Dê ao script ~20 segundos para rodar e você verá uma linha de comando vazia com `$` aparecendo...
+Dê ao script ~20 segundos para rodar e você verá uma linha de comando vazia com o `$` aparecendo...
 ```console
 $ whoami 
 leviathan7
@@ -344,7 +342,7 @@ Parabéns! Você consquistou o **Leviathan**!
 
 © 2018 [Jack Halon][1]. Powered by [Jekyll][23] & [Minimal Mistakes][24].
 
-**Traduzido e adaptado por [@BrunoxD][27] em 16 de Maio de 2018.**
+**Traduzido e adaptado por [@BrunoxD][27] em 17 de Maio de 2018.**
 
 [1]: https://jhalon.github.io/
 [2]: https://jhalon.github.io/posts.html
