@@ -1,58 +1,59 @@
-OverTheWire: ‘Leviathan’ Solutions 1-8
+OverTheWire: Resolução do ‘Leviathan’ 1-8
 ======================================
 
 Retirado de [**OverTheWire: ‘Leviathan’ Solutions 1-8**][26] por [**Jack Halon**][1].
 
-Leviathan is a wargame that was rescued from the demise of intruded.net, previously hosted on **leviathan.intruded.net**. It can now be found [HERE][10] at OverTheWire. The wargame consists of 8 levels and is classified as 1/10 difficulty. It also states that “_This wargame doesn’t require any knowledge about programming - just a bit of common sense and some knowledge about basic *nix commands._”
+Leviathan é um wargame que foi resgatado do extinto intruded.net, anteriormente hospedado em **leviathan.intruded.net**. Agora ele pode ser encontrado [aqui][10] no OverTheWire. Este wargame consiste de 8 níveis e é classificado como 1/10 em termos de dificuldade. Sendo também afirmado que "_Este wargame não requer nenhum conhecimento sobre programação, apenas um pouco de senso comum e conhecimento básco de comandos *nix._"
 
-Though in all honesty, it requires a bit more then what they are stating. Before we begin, for anyone going through the levels and having a hard time, all I can say is - focus on the output of code and utilize the [ltrace][11] command.
+Embora toda a sua honestidade, ele requer um pouco mais do que é afirmado. Antes de começarmos, para qualquer um que esteja passando pelos níveis e tendo dificuldades, tudo o que posso dizer é - concentre-se na saída do código e utilize o comando [ltrace][11].
 
-So, let’s begin… shall we?
+Então, vamos começar... vamos?
+
+**Obs: Todas as flags deste guia foram removidas por motivos didáticos.**
 
 ### Level 0:
 
-For the first level we must log into leviathan, so we will SSH to leviathan0 with the username: **leviathan0** and password: **leviathan0**
+Para o primeiro nível nos devemos conectar no leviathan, então estabeleceremos uma conexão via SSH com o leviathan0 com o username: **leviathan0** e password: **leviathan0**,
 
     root@kali:~# ssh leviathan0@leviathan.labs.overthewire.org
     
 
 ### Level 0 -> 1:
 
-OverTheWire provides us only with one hint “Data for the levels can be found in the **homedirectories**.” So we are on our own!
+OverTheWire nos provê apenas uma dica "Os dados para os níveis podem ser encontrados em **homedirectories**." Portanto, estamos por nossa conta!
 
-Let’s go ahead and find out what we have in our home directory.
+Vejamos então o que temos em nosso diretório home.
 
     leviathan0@melinda:~$ ls -a
     .  ..  .backup  .bash_logout  .bashrc  .profile
     
 
-**.backup** looks promising, so let’s look in there and see if we can’t find anything.
+**.backup** parece promissor, então vejamos se podemos encontrar alguma coisa dentro do diretório.
 
     leviathan0@melinda:~$ cd .backup
     leviathan0@melinda:~/.backup$ ls -a
     .  ..  bookmarks.html
     leviathan0@melinda:~/.backup$ grep leviathan1 bookmarks.html
-    <DT><A HREF="http://leviathan.labs.overthewire.org/passwordus.html | This will be fixed later, the password for leviathan1 is rioGegei8m" ADD_DATE="1155384634" LAST_CHARSET="ISO-8859-1" ID="rdf:#$2wIU71">password to leviathan1</A>
+    <DT><A HREF="http://leviathan.labs.overthewire.org/passwordus.html | This will be fixed later, the password for leviathan1 is FLAG" ADD_DATE="1155384634" LAST_CHARSET="ISO-8859-1" ID="rdf:#$2wIU71">password to leviathan1</A>
     
 
-Alright, simple enough! We end up with the password `rioGegei8m` from **bookmarks.html**. Let’s move on to leviathan1!
+Beleza, acabamos por encontrar a FLAG a partir do **bookmarks.html**. Então vamos para o nível seguinte, leviathan1!
 
 ### Level 1 -> 2:
-
-This level was fairly easy, and you can use a plethora of methods to find the password for this. First let’s see what we have to work with.
+Esse nível é bem fácil, e você pode usar inúmeros métodos para encontrar a flag. Mas primeiro, vejamos o que temos para trabalhar.
 
     leviathan1@melinda:~$ ls -a
     .  ..  .bash_logout  .bashrc  .profile  check
     
 
-We can see that the home directory stores an executable called **check**, so let’s run that and see what happens.
+Nós podemos ver que o diretório home armazena um executável chamado **check**, portanto vamos executá-lo e ver o que acontece.
 
     leviathan1@melissa:~$ ./check
     password: 1234
     Wrong password, Good Bye ...
     
 
-Hmm… Okay, so it seems that the executable is checking for a password. This means that **check** is comparing our input to something hardcoded. Let’s run an `ltrace` and see what the library calls are for this program.
+Hmm… Interessante, parece que o executável está verificando uma senha. Isto significa que o **check** está comparando a nossa entrada com algo que está *hardcoded*. Vamos rodar o comando `ltrace` e ver quais as chamadas de biblioteca desse programa.
 
     leviathan1@melinda:~$ ltrace ./check
     __libc_start_main(0x804852d, 1, 0xffffd7a4, 0x80485f0 <unfinished ...>
@@ -69,21 +70,21 @@ Hmm… Okay, so it seems that the executable is checking for a password. This me
     +++ exited (status 0) +++
     
 
-Looking at the output, we can see that the program is using `strcmp`, which is a C library function that compares two strings against one another. In this executable, it’s comparing the password input against the word “sex”. Let’s see if “sex” will work.
+Olhando para a saída, podemos ver que o programa está utilizando a instrução `strcmp`, a qual é uma função de uma biblioteca da linguagem C que compara duas *strings*. Nesse executável é comparado a senha de entrada com a palavra "sex". Logo, vejamos se "sex" funcionará.
 
     leviathan1@melinda:~$ ./check
     password: sex
     $ whoami
     leviathan2
     $ cat /etc/leviathan_pass/leviathan2
-    ougahZi8Ta
+    FLAG
     
 
-And there we have the password! Now, if you think this was hard… it get’s harder, so strap in as we move to leviathan2!
+E agora nós temos a FLAG! Se achou que até aqui foi difícil, pode aguardar que fica pior, seguimos então para o leviathan2!
 
 ### Level 2 -> 3:
 
-This level is really interesting in my honest opinion, as it allows you to exploit a flaw in the executable. It took me a while and a lot of [Google Fu][12] (yes, it’s a thing) to finally figure out how the get the password from **/etc/leviathan_pass/leviathan3**.
+Em minha honesta opinião este nível é realmente interessante, pois permite que se explore uma falha no executável. Isso me tomou um bom tempo e muita pesquisa no Google([Google Fu][12]) para finalmente descobrir como conseguir a FLAG de **/etc/leviathan_pass/leviathan3**.
 
     leviathan2@melinda:~$ ls -la
     total 28
@@ -97,14 +98,13 @@ This level is really interesting in my honest opinion, as it allows you to explo
     *** File Printer ***
     Usage: ./printfile filename
     
-
-Alright, so it seems the program **printfile** outputs the text from a file; just like `cat`. Therefore, we can assume that it’s using `cat` somewhere in the code. Yet, hold on a second… I like working smart, and not hard. Let’s see if we can get the **leviathan3** password file from **/etc/leviathan_pass/** using this exe.
+Certo, então parece que o programa **printfile** imprime na saída o texto de um arquivo; assim como no comando `cat`. Portanto, podemos supor que o comando `cat` está sendo utilizando em algum lugar do código. Mesmo assim, espere um segundo... Eu prefiro buscar o caminho eficaz, do que ir pelo complicado. Vejamos se conseguimos ver a FLAG do **leviathan3** através do arquivo **/etc/leviathan_pass/** por meio do executável.
 
     leviathan2@melinda:~$ ./printfile /etc/leviathan_pass/leviathan3
     You cant have that file...
     
 
-Darn… guess not. That’s okay, let’s go ahead and make a temp directory, and a new text file that we can use for testing the program with `ltrace`.
+Parece que não. Vamos criar então um diretório temp, e um novo arquivo de texto que nós poderemos usar para testar o programa com o comando `ltrace`.
 
     leviathan2@melinda:~$ mkdir /tmp/jhalon && touch /tmp/jhalon/test.txt
     leviathan2@melinda:~$ cd /tmp/jhalon
@@ -117,6 +117,8 @@ Darn… guess not. That’s okay, let’s go ahead and make a temp directory, an
     <... system resumed> )                           = 0
     +++ exited (status 0) +++
     
+
+Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamados na entrada do arquivo. O que o `access()` faz é checar as permissões 
 
 From the output, we can see that there is a small security hole in the way this program functions. If you look closely, you can see that the function `access()` and **/bin/cat** are being called on the input file. What `access()` does is check permissions based on the process’ real user ID rather than the effective user ID.
 
@@ -247,7 +249,7 @@ Alright, so far we had some easy ones and some hard ones… let’s see what’s
     -r-sr-x---   1 leviathan6 leviathan5 7634 Nov 14  2014 leviathan5
     
 
-Another executable, okay. Let’s run it and see what we get.
+Outro executável, vamos executá-lo e ver o que acontece.
 
     leviathan5@melinda:~$ ./leviathan5
     Cannot find /tmp/file.log
@@ -264,18 +266,18 @@ Okay. So it seems that the executable is trying to pull information on a file th
     +++ exited (status 255) +++
     
 
-Interesting, it seems that the executable is using `fopen` on **/tmp/file.log**. Let’s go ahead and create a symlink to **/etc/leviathan_pass/levithan6** and link it to **/tmp/file.log**.
+Interessante, parece que o executável está usando o comando `fopen`em **/tmp/file.log**. Criemos então um link simbólico de **/etc/leviathan_pass/levithan6** para o arquivo **/tmp/file.log**.
 
     leviathan5@melinda:~$ ln -s /etc/leviathan_pass/leviathan6 /tmp/file.log
     leviathan5@melinda:~$ ./leviathan5
-    UgaoFee4li
+    FLAG
     
 
-Easy enough! We got the password and we can move on to leviathan6!
+Bem fácil! Nós conseguimos a FLAG e agora podemos ir para o leviathan6!
 
 ### Level 6 -> 7:
 
-As always, let’s run `ls -la` and see what we have to work with.
+Como sempre, vamos executar `ls -la` e ver o que temos para trabalhar.
 
     leviathan6@melinda:~$ ls -la
     total 28
@@ -289,13 +291,15 @@ As always, let’s run `ls -la` and see what we have to work with.
     usage: ./leviathan6 <4 digit code>
     
 
-Another executable, shocker… really. This one in particular, is asking us to input a 4 digit pin. Let’s try and brute force it! We will start by creating a tmp directory and opening `nano` to write a shell script.
+
+Outro executável, chocante... de fato. Este em particular, está solicitando um pin de 4 dígitos como entrada. vamos  
+This one in particular, is asking us to input a 4 digit pin. Let’s try and brute force it! We will start by creating a tmp directory and opening `nano` to write a shell script.
 
     leviathan6@melinda:~$ mkdir /tmp/jhalon
     leviathan6@melinda:~$ nano /tmp/jhalon/brute.sh
     
 
-Our shell script will look something like this…
+Nosso shell script será algo parecido com isso...
 
     #!/bin/bash
     
@@ -305,21 +309,21 @@ Our shell script will look something like this…
     done
     
 
-Save the script as `bash.sh` or anything you’d like for that matter, and let’s use `chmod` to give it executable permissions. Once done, let’s run the script.
+Salve o script como `bash.sh` ou qualquer outro nome que desejar e use o comando `chmod` para atribuir permissão de executável ao arquivo. Uma fez feito, rode o script.
 
     leviathan6@melinda:/tmp/jhalon$ chmod +x brute.sh
     leviathan6@melinda:/tmp/jhalon$ ./brute.sh
     
 
-Give the script ~20 seconds to run and you should see a blank command line with `$` appear…
+Dê ao script ~20 segundos para rodar e você deve ver uma linha de comando vazia com `$` aparecerá...
 
     $ whoami 
     leviathan7
     $ cat /etc/leviathan_pass/leviathan7
-    ahy7MaeBo9
+    FLAG
     
 
-Done! We got the password! Technically this is the last level… but let’s SSH into leviathan7 to see what’s in there.
+Feito! Nós conseguimos a FLAG! Técnicamente este é o últmo nível... mas vamos dar olhada no leviathan7 para ver o que há lá.
 
 ### Level 7
 
@@ -332,12 +336,12 @@ Done! We got the password! Technically this is the last level… but let’s SSH
     -rw-r--r--   1 root       root        675 Apr  9  2014 .profile
     -r--r-----   1 leviathan7 leviathan7  178 Nov 14  2014 CONGRATULATIONS
     leviathan7@melinda:~$ cat CON*
-    Well Done, you seem to have used a *nix system before, now try something more serious.
+    Muito bem, você parece já ter usado um sistema *nix, agora tente algo mais desafiador.	
     
 
-Congratulations! You have conquered **Leviathan**!
+Parabéns! Você consquistou o **Leviathan**!
 
-**Updated:** September 09, 2016
+**Atualizado:** 09 de Setembro de 2016
 
 © 2018 [Jack Halon][1]. Powered by [Jekyll][23] & [Minimal Mistakes][24].
 
