@@ -118,9 +118,7 @@ Parece que não. Vamos criar então um diretório temp, e um novo arquivo de tex
     +++ exited (status 0) +++
     
 
-Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que o `access()` faz é checar as permissões baseadas no processo
-
-What `access()` does is check permissions based on the process’ real user ID rather than the effective user ID.
+Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que `access ()` faz é verificar as permissões com base no ID do usuário real do processo em vez do ID do usuário efetivo.
 
 To explain: The real user id is who you really are (the one who owns the process), and the effective user id is what the operating system looks at to make a decision on whether or not you are allowed to do something (most of the time, there are some exceptions).
 
@@ -151,7 +149,7 @@ I was right! As you can see, **/bin/cat** calls “**pass file.txt**” as two s
     lrwxrwxrwx 1 leviathan2 leviathan2      30 Sep 10 04:55 pass -> /etc/leviathan_pass/leviathan3
     -rw-rw-r-- 1 leviathan2 leviathan2       0 Sep 10 04:54 pass file.txt
     leviathan2@melinda:/tmp/jhalon$ ~/printfile "pass file.txt"
-    Ahdiemoo1j
+    FLAG
     /bin/cat: file.txt: No such file or directory
     
 
@@ -171,7 +169,7 @@ This level was a bit easier than the previous one. Just use what you learned fro
     -r-sr-x---   1 leviathan4 leviathan3 9962 Mar 21  2015 level3
     
 
-Alright, we have another executable called **level3**, let’s run it and see what happens.
+Certo, nós temos outro executável chamado **level3**, vamos executá-lo e ver o que acontece.
 
     leviathan3@melinda:~$ ./level3
     Enter the password> 1234
@@ -200,14 +198,14 @@ Looking at the `ltrace` we can see that `strcmp` is being called 2 times. This i
     $ whoami
     leviathan4
     $ cat /etc/leviathan_pass/leviathan4
-    vuH0coox6m
+    FLAG
     
 
-Wow, that was easier then pressing a Staples button! Okay… moving on to leviathan4!
+Uau, isso foi mais fácil do que pressionar um Staples button! Ok... vamos seguir para o leviathan4!
 
 ### Level 4 -> 5:
 
-As always, let’s see what we have to work with.
+Como sempre, vejamos o que temos para trabalhar.
 
     leviathan4@melinda:~$ ls -la
     total 24
@@ -219,7 +217,7 @@ As always, let’s see what we have to work with.
     dr-xr-x---   2 root leviathan4 4096 Nov 14  2014 .trash
     
 
-**.trash** looks promising, let’s go ahead and see what’s stored in that directory.
+**.trash** parece promissor, vejamos o que esse diretório armazena.
 
     leviathan4@melinda:~$ cd .trash
     leviathan4@melinda:~/.trash$ ls -la
@@ -231,8 +229,7 @@ As always, let’s see what we have to work with.
     01010100 01101001 01110100 01101000 00110100 01100011 01101111 01101011 01100101 01101001 00001010 
     
 
-Interessante... É um saída binária. 
-Interesting… it’s a Binary Output. Let’s go online, and use a Binary to ASCII converter. I used [RapidTables][14] to do my conversion. After converting the Binary, we get the FLAG.
+Interessante... É um saída binária. Vamos usar um conversor online de Binário para ASCII. Eu usei o [RapidTables][14] para fazer a minha conversão. Depois de converter o binário, nós conseguimos a FLAG.
 
 Muito fácil, não é muito difícil se você souber para o que está olhando. Vamos para o leviathan5!
 
@@ -345,7 +342,7 @@ Parabéns! Você consquistou o **Leviathan**!
 
 © 2018 [Jack Halon][1]. Powered by [Jekyll][23] & [Minimal Mistakes][24].
 
-**Traduzido e adaptado por [@dethaldox][27] em 16 de Maio de 2018.**
+**Traduzido e adaptado por [@BrunoxD][27] em 16 de Maio de 2018.**
 
 [1]: https://jhalon.github.io/
 [2]: https://jhalon.github.io/posts.html
