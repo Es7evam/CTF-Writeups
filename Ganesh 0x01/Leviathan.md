@@ -297,14 +297,14 @@ Outro executável, chocante... de fato. Este em particular, está solicitando um
     
 
 Nosso shell script será algo parecido com isso...
+```shell
+#!/bin/bash
 
-    #!/bin/bash
-    
-    for a in {0000..9999}
-    do
+for a in {0000..9999}
+do
     ~/leviathan6 $a
-    done
-    
+done
+```
 
 Salve o script como `bash.sh` ou qualquer outro nome que desejar e use o comando `chmod` para atribuir permissão de execução ao arquivo. Uma vez feito isso, rode o script.
 
