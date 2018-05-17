@@ -13,14 +13,14 @@ Então, vamos começar?
 
 ### Level 0:
 
-Para o primeiro nível nos devemos conectar no leviathan, então estabeleceremos uma conexão via SSH com o leviathan0 com o username: **leviathan0** e password: **leviathan0**,
+Para o primeiro nível nos devemos conectar no leviathan, então estabeleceremos uma conexão via SSH com o leviathan0 com o username: **leviathan0** e password: **leviathan0**.
 ```console
 root@kali:~# ssh leviathan0@leviathan.labs.overthewire.org
 ```    
 
 ### Level 0 -> 1:
 
-OverTheWire nos provê apenas uma dica "Os dados para os níveis podem ser encontrados em **homedirectories**." Portanto, estamos por nossa conta!
+O OverTheWire nos provê apenas uma dica "Os dados para os níveis podem ser encontrados em **homedirectories**." Portanto, estamos por nossa conta!
 
 Vejamos então o que temos em nosso diretório home.
 ```console
@@ -43,7 +43,8 @@ leviathan0@melinda:~/.backup$ grep leviathan1 bookmarks.html
 Beleza, acabamos por encontrar a FLAG a partir do **bookmarks.html**. Então vamos para o nível seguinte, leviathan1!
 
 ### Level 1 -> 2:
-Esse nível é bem fácil, e você pode usar inúmeros métodos para encontrar a flag. Mas primeiro, vejamos o que temos para trabalhar.
+Esse nível é bem fácil, e você pode usar inúmeros métodos para encontrar a flag. Mas primeiro, vejamos o que temos para 
+.
 ```console
 leviathan1@melinda:~$ ls -a
 .  ..  .bash_logout  .bashrc  .profile  check
@@ -83,7 +84,7 @@ $ cat /etc/leviathan_pass/leviathan2
 FLAG
 ```    
 
-E agora nós temos a FLAG! Se achou que até aqui foi difícil, pode aguardar que fica pior, seguimos então para o leviathan2!
+E agora nós temos a FLAG! Se achou que até aqui foi difícil, pode aguardar que vai ficar pior, seguimos então para o leviathan2!
 
 ### Level 2 -> 3:
 
@@ -122,7 +123,7 @@ system("/bin/cat test.txt" <no return ...>
 +++ exited (status 0) +++
 ```    
 
-Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que `access ()` faz é verificar as permissões com base no ID do usuário real do processo em vez do ID do usuário efetivo.
+Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que `access()` faz é verificar as permissões com base no ID do usuário real do processo em vez do ID do usuário efetivo.
 
 To explain: The real user id is who you really are (the one who owns the process), and the effective user id is what the operating system looks at to make a decision on whether or not you are allowed to do something (most of the time, there are some exceptions).
 
@@ -208,7 +209,7 @@ Uau, isso foi mais fácil do que pressionar um Staples button! Ok... vamos segui
 
 ### Level 4 -> 5:
 
-Como sempre, vejamos o que temos para trabalhar.
+Como sempre, vejamos o que temos a nossa disposição.
 ```console
 leviathan4@melinda:~$ ls -la
 total 24
@@ -278,7 +279,7 @@ Bem fácil! Nós conseguimos a FLAG e agora podemos ir para o leviathan6!
 
 ### Level 6 -> 7:
 
-Como sempre, vamos executar `ls -la` e ver o que temos para trabalhar.
+Como sempre, vamos executar `ls -la` e ver o que temos a nossa disposição.
 ```console
 leviathan6@melinda:~$ ls -la
 total 28
