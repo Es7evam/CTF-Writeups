@@ -161,7 +161,8 @@ And bingo was his name, OH! We got the password for leviathan3! Go do a victory 
 
 ### Level 3 -> 4:
 
-This level was a bit easier than the previous one. Just use what you learned from the previous levels to your advantage. Let’s begin by seeing what we have at our disposal.
+Este nível é um pouco mais fácil do que o anterior. Apenas use o que você aprendeu dos níveis anteriores como vantagem. Vamos começar observando o que temos a nossa disposição.
+
 ```console
 leviathan3@melinda:~$ ls -la
 total 32
@@ -179,8 +180,7 @@ leviathan3@melinda:~$ ./level3
 Enter the password> 1234
 bzzzzzzzzap. WRONG
 ```    
-
-Another password… great! Let’s go ahead and run `ltrace` to see what the library calls are for this program.
+Outra senha... ótimo! Vamos executar o comando `ltrace` para ver quais chamadas de biblioteca são feitas por este programa.
 ```console
 leviathan3@melinda:~$ ltrace ./level3
 __libc_start_main(0x80485fe, 1, 0xffffd794, 0x80486d0 <unfinished ...>
@@ -193,8 +193,7 @@ puts("bzzzzzzzzap. WRONG"bzzzzzzzzap. WRONG
 )                       = 19
 +++ exited (status 0) +++
 ```    
-
-Looking at the `ltrace` we can see that `strcmp` is being called 2 times. This is trying to obfuscate us from the main password, but let’s focus on the one that compares our input. We can see that it tries to compare the input against “**snlprintf**”; let’s try it as the password.
+Olhando para a saída do `ltrace` podemos ver que a instrução `strcmp` é chamada duas vezes. Essa é uma tentativa de ofuscar a senha principal, mas vamos nos focar na que compara a nossa entrada. Nós podemos ver que a entrada é comparada com “**snlprintf**”; vamos tentar isso como senha.
 ```console
 leviathan3@melinda:~$ ./level3
 Enter the password> snlprintf
