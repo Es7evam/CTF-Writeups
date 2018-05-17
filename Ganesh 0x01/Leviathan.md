@@ -125,11 +125,11 @@ system("/bin/cat test.txt" <no return ...>
 
 Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que `access()` faz é verificar as permissões com base no ID do usuário real do processo em vez do ID do usuário efetivo.
 
-To explain: The real user id is who you really are (the one who owns the process), and the effective user id is what the operating system looks at to make a decision on whether or not you are allowed to do something (most of the time, there are some exceptions).
+Esclarecendo: O real ID do usuário é quem você realmente é (aquele que é o dono do processo), e o ID efetivo do usuário  é o que o sistema operacional analisa para decidir se você tem ou não permissão para fazer algo (na maioria das vezes, existem algumas exceções).
 
-And if we look back into the previous `ls -la` output, we can see that **printfile** is owned by **leviathan3**. So `access()` will call the process with **leviathan3’s** privileges.
+E se nós olharmos de volta para a saída do comando `ls -la` anterior, nós podemos observar que o programa **printfile** pertence ao usuário **leviathan3**. Sendo assim, o comando `access()` irá chamar o processo com os privilégios do usuário **leviathan3’s**.
 
-Looking into the code we also see that **/bin/cat** is being called on the file to output the contents. While `access()` uses the full path’s filename, **/bin/cat** uses just the first part of the filename. (This is due to how the “ “ are set up in the program) What we can do here is try to add a space to a filename, and if we are correct, **/bin/cat** will read the file as 2 separate files.
+Examinando cuidadosamente o código nós também podemos ver que o **/bin/cat** está sendo chamado para imprimir o conteúdo do arquivo. Enquanto o comando `access()` utiliza o caminho completo do arquivo, o **/bin/cat** utiliza apenas o nome do arquivo como caminho. (Isto é devido a como " " está configurado no programa) O que nós podemos fazer aqui é tentar adicionar um espaço ao nome do arquivo, e se nós estivermos corretos, será possível ler um arquivo como 2 arquivos separados pelo **/bin/cat**.
 ```console
 leviathan2@melinda:/tmp/jhalon$touch pass\ file.txt
 leviathan2@melinda:/tmp/jhalon$ ltrace ~/printfile "pass file.txt"
@@ -143,6 +143,7 @@ system("/bin/cat pass file.txt"/bin/cat: pass: No such file or directory
 <... system resumed> )                           = 256
 +++ exited (status 0) +++
 ```    
+Eu estava certo! Como você pode ver, o **/bin/cat** abre o “**pass file.txt**” como dois arquivos separados, “**pass**” e “**file.txt**”. Nós podemos explorar essa vulnerabilidade! Vamos criar um [link simbólico][13] para a parte do  “**pass**” no “**pass file.txt**”, a partir do arquivo **/etc/leviathan_pass/leviathan3**.
 
 I was right! As you can see, **/bin/cat** calls “**pass file.txt**” as two separate files, “**pass**” and “**file.txt**”. We can actually exploit this! Let’s go ahead and create a [symbolic link][13] for the “**pass**” part in “**pass file.txt**”, and link it to **/etc/leviathan_pass/leviathan3**.
 ```console
@@ -157,8 +158,7 @@ leviathan2@melinda:/tmp/jhalon$ ~/printfile "pass file.txt"
 FLAG
 /bin/cat: file.txt: No such file or directory
 ```    
-
-And bingo was his name, OH! We got the password for leviathan3! Go do a victory lap around the house, you deserved it!
+Bingo! Encontramos a FLAG do leviathan3! Vá dar uma volta da vitória em volta da casa, você mereceu essa!
 
 ### Level 3 -> 4:
 
