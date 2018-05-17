@@ -118,9 +118,9 @@ Parece que não. Vamos criar então um diretório temp, e um novo arquivo de tex
     +++ exited (status 0) +++
     
 
-Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamados na entrada do arquivo. O que o `access()` faz é checar as permissões 
+Pela saída do programa, nós podemos observar uma pequena brecha de segurança na forma como esse programa funciona. Se você olhar atentamente, será possível ver que a função `access()` e **/bin/cat** estão sendo chamadas na entrada do arquivo. O que o `access()` faz é checar as permissões baseadas no processo
 
-From the output, we can see that there is a small security hole in the way this program functions. If you look closely, you can see that the function `access()` and **/bin/cat** are being called on the input file. What `access()` does is check permissions based on the process’ real user ID rather than the effective user ID.
+What `access()` does is check permissions based on the process’ real user ID rather than the effective user ID.
 
 To explain: The real user id is who you really are (the one who owns the process), and the effective user id is what the operating system looks at to make a decision on whether or not you are allowed to do something (most of the time, there are some exceptions).
 
@@ -231,13 +231,14 @@ As always, let’s see what we have to work with.
     01010100 01101001 01110100 01101000 00110100 01100011 01101111 01101011 01100101 01101001 00001010 
     
 
-Interesting… it’s a Binary Output. Let’s go online, and use a Binary to ASCII converter. I used [RapidTables][14] to do my conversion. After converting the Binary, we get the password `Tith4cokei`.
+Interessante... É um saída binária. 
+Interesting… it’s a Binary Output. Let’s go online, and use a Binary to ASCII converter. I used [RapidTables][14] to do my conversion. After converting the Binary, we get the FLAG.
 
-Easy enough, not too hard if you know what you were looking at. Let’s move on to leviathan5!
+Muito fácil, não é muito difícil se você souber para o que está olhando. Vamos para o leviathan5!
 
 ### Level 5 -> 6:
 
-Alright, so far we had some easy ones and some hard ones… let’s see what’s in store for us on leviathan5.
+Bem, até agora nós tivemos alguns que eram fáceis e outros quera eram difíceis... vejamos o que nos aguarda no leviathan5.
 
     leviathan5@melinda:~$ ls -la
     total 28
@@ -255,7 +256,7 @@ Outro executável, vamos executá-lo e ver o que acontece.
     Cannot find /tmp/file.log
     
 
-Okay. So it seems that the executable is trying to pull information on a file that doesn’t exist. Let’s run an `ltrace` and see what is being called.
+Certo. Parece que o executável está tentando obter informações de um arquivo que não existe. Vamos rodar o comando `ltrace` e ver o que está sendo chamado.
 
     leviathan5@melinda:~$ ltrace ./leviathan5
     __libc_start_main(0x80485ed, 1, 0xffffd794, 0x8048690 <unfinished ...>
@@ -292,8 +293,7 @@ Como sempre, vamos executar `ls -la` e ver o que temos para trabalhar.
     
 
 
-Outro executável, chocante... de fato. Este em particular, está solicitando um pin de 4 dígitos como entrada. vamos  
-This one in particular, is asking us to input a 4 digit pin. Let’s try and brute force it! We will start by creating a tmp directory and opening `nano` to write a shell script.
+Outro executável, chocante... de fato. Este em particular, está solicitando um pin de 4 dígitos como entrada. Vamos tentar utilizar força bruta para encontrar o pin. Começaremos criando um diretório tmp e abrindo o editor de texto `nano` para escrever um shell script.
 
     leviathan6@melinda:~$ mkdir /tmp/jhalon
     leviathan6@melinda:~$ nano /tmp/jhalon/brute.sh
@@ -309,13 +309,13 @@ Nosso shell script será algo parecido com isso...
     done
     
 
-Salve o script como `bash.sh` ou qualquer outro nome que desejar e use o comando `chmod` para atribuir permissão de executável ao arquivo. Uma fez feito, rode o script.
+Salve o script como `bash.sh` ou qualquer outro nome que desejar e use o comando `chmod` para atribuir permissão de execução ao arquivo. Uma vez feito isso, rode o script.
 
     leviathan6@melinda:/tmp/jhalon$ chmod +x brute.sh
     leviathan6@melinda:/tmp/jhalon$ ./brute.sh
     
 
-Dê ao script ~20 segundos para rodar e você deve ver uma linha de comando vazia com `$` aparecerá...
+Dê ao script ~20 segundos para rodar e você verá uma linha de comando vazia com `$` aparecendo...
 
     $ whoami 
     leviathan7
@@ -323,7 +323,7 @@ Dê ao script ~20 segundos para rodar e você deve ver uma linha de comando vazi
     FLAG
     
 
-Feito! Nós conseguimos a FLAG! Técnicamente este é o últmo nível... mas vamos dar olhada no leviathan7 para ver o que há lá.
+Feito! Nós conseguimos a FLAG! Técnicamente este é o últmo nível... mas vamos dar uma olhada no leviathan7 para ver o que há lá.
 
 ### Level 7
 
@@ -344,6 +344,8 @@ Parabéns! Você consquistou o **Leviathan**!
 **Atualizado:** 09 de Setembro de 2016
 
 © 2018 [Jack Halon][1]. Powered by [Jekyll][23] & [Minimal Mistakes][24].
+
+**Traduzido e adaptado por [@dethaldox][27] em 16 de Maio de 2018.**
 
 [1]: https://jhalon.github.io/
 [2]: https://jhalon.github.io/posts.html
@@ -371,3 +373,4 @@ Parabéns! Você consquistou o **Leviathan**!
 [24]: https://mademistakes.com/work/minimal-mistakes-jekyll-theme/
 [25]: http://disqus.com/?ref_noscript
 [26]: https://jhalon.github.io/over-the-wire-leviathan/
+[27]: https://github.com/BrunoxD
