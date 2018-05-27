@@ -1,5 +1,7 @@
 # GameNightmare UFSCar
 
+
+
 ## Web
 
 ### Recon (50)
@@ -110,8 +112,22 @@ Executamos com a wordlist, rodando em 100 workers na cpu
 ```
 ./sucrack -w 100 -u admin ../../rockyou.txt
 ```
+Obtendo o password para a conta admin. <br>
+Ao logar nela temos o arquivo flag.txt.  <br>
+flag: `POMBO{L00k_ar0und_n0t_ab0ve}`
 ### Priv Escalation (600)
-- TODO
+```
+get the root account, and be happy
+```
+Testando, após logar na conta admin, podemos ver que ela é um sudoer. <br>
+Então, simplesmente usando
+```
+sudo su root
+```
+e digitando o password obtido na etapa anterior, logamos na conta root.
+Onde temos o arquivo `flag.txt` <br>
+flag: `POMBO{H0wD4r3You}`
+
 
 ## Reverse Engineering
 
@@ -120,7 +136,7 @@ Executamos com a wordlist, rodando em 100 workers na cpu
 Caso usemos o comando `file Malware.exe`, percebemos que é um MS-DOS, .NET <br>.
 Então, tentamos usar um decompilador para extrair o código, como o `dnSpy`, por exemplo. <br>
 Porém, ao abrirmos o arquivo decompilado, vemos que está cheio de códigos estranhos e nomes de funções incomuns. <br>
-Desconfiamos que o .exe foi obfuscado. Portanto, o desobfuscaremos, usando o `de4dot`.
+Desconfiamos que o .exe foi obfuscado. Portanto, o desobfuscaremos, usando o `de4dot`. <br>
 Rodando ele, geramos o arquivo `Malware.clean.exe`. <br>
 Abrindo ele, na main encontramos a flag em texto.
 <newline>
@@ -130,7 +146,7 @@ flag: `HZVI{M4lw4re_C4n_b3_h0st3d_1n_y0ur_reg1str1es}`
 
 
 ### not_my_name (50)
-Caso usemos o radare ou o IDAPro para visualizar o grafo de fluxo do arquivo dado, percebemos várias funções com os nomes da música
+Caso usemos o radare ou o IDAPro para visualizar o grafo de fluxo do arquivo dado, percebemos várias funções com os nomes da música <br>
 Abra o arquivo usando o gdb por exemplo
 
 ```
@@ -145,7 +161,7 @@ E então, através do que percebemos pelo grafo, usamos
 j jeff
 ```
 E recebemos um [link](https://vimeo.com/271687045) de um vídeo. <br>
-Na descrição do chall é dito que "quando acharmos que resolveu, a senha é o nome do chall", então usamos `not_my_name` para abrir o vídeo.
+Na descrição do chall é dito que "quando acharmos que resolveu, a senha é o nome do chall", então usamos `not_my_name` para abrir o vídeo. <br>
 A flag encontra-se na descrição. <br>
 flag: `SCMPv9{my_n4m3_1s_jeff}`
 
@@ -156,8 +172,8 @@ Existem diversos modos de resolver esse challenge:
 Ao abrir um decompiler, como por exemplo o IDA, percebemos que a flag gerada depende exclusivamente do nome do presidente. <br>
 Caso usemos o comando `strings` no arquivo, percebemos o nome "Bill Clinton", mencionado no enunciado. <br>
 Ao tentar usar o nome Bill Clinton, recebemos uma mensagem de "nome já utilizado". <br>
-Então, ao abrir o binário dado, com um editor de texto qualquer, como por exemplo o vim, procuramos por "Bill" e editamos para um nome qualquer.
-Tentamos novamente, usamos o presidente `Bill Clinton` como nome e obtemos a resposta.
+Então, ao abrir o binário dado, com um editor de texto qualquer, como por exemplo o vim, procuramos por "Bill" e editamos para um nome qualquer. <br>
+Tentamos novamente, usamos o presidente `Bill Clinton` como nome e obtemos a resposta. <br>
 flag: `INSA{8c0165004d4ab5d6}`
 
 #### Reverse Hashing
