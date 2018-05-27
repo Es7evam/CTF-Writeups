@@ -5,7 +5,7 @@ Writeup in portuguese.
 ## Web
 - [Memes(20)](Web/Memes.md)
 - [Mighty Searcher(40)](Web/MightySearcher.md)
-- Omni Corp(40)
+- [Omni Corp(40)](Web/OmniCorp.md)
 - [The Vault(50)](Web/TheVault.md)
 - [Banana Shopping(60)](Web/BananaShopping.md)
 
@@ -13,7 +13,4 @@ Writeup in portuguese.
 - [Show me you Code!](ShowMeYouCode.md)
 
 ## Linux
-- Leviathan 1
-- Leviathan 3
-- Leviathan 5
-- Leviathan 7
+- [Leviathan](Leviathan.md)
